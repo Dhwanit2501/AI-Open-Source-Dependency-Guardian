@@ -9,6 +9,7 @@ def merge_all_deps(parsed_data):
     combined = {}
     combined.update(parsed_data.get("dependencies", {}))
     combined.update(parsed_data.get("devDependencies", {}))
+    combined.update(parsed_data.get("peerDependencies", {}))
     return combined
 
 def agent_main(file_key,dep_file_path):

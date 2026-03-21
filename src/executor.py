@@ -9,6 +9,11 @@ from cvss import CVSS3
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
+
+# ---------------------------------------------------------------------------
+# OSV.dev integration — single source of truth for vulnerabilities + fixes
+# ---------------------------------------------------------------------------
+
 def check_osv(package: str, version: str, ecosystem: str = "PyPI") -> list:
     """
     Queries OSV for CVEs affecting a specific package version.
@@ -222,6 +227,10 @@ def build_vuln_context(vuln_data: dict) -> str:
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------------------
+# Patch file generators
+# ---------------------------------------------------------------------------
+
 def generate_patched_requirements(original_sections, suggested_versions):
     lines = []
     for pkg, data in original_sections["dependencies"].items():
@@ -240,21 +249,36 @@ def generate_patched_requirements(original_sections, suggested_versions):
 def generate_updated_package_json(original_sections, suggested_versions):
     deps = {}
     dev_deps = {}
+    peer_deps = {}
+
     for pkg, data in original_sections.get("dependencies", {}).items():
         prefix = data["prefix"]
         ver = suggested_versions.get(pkg, data["version"])
         deps[pkg] = f"{prefix}{ver}"
+
     for pkg, data in original_sections.get("devDependencies", {}).items():
         prefix = data["prefix"]
         ver = suggested_versions.get(pkg, data["version"])
         dev_deps[pkg] = f"{prefix}{ver}"
+
+    for pkg, data in original_sections.get("peerDependencies", {}).items():
+        prefix = data["prefix"]
+        ver = suggested_versions.get(pkg, data["version"])
+        peer_deps[pkg] = f"{prefix}{ver}"
+
     # Preserve all original top-level fields (name, version, scripts, etc.)
     result = {k: v for k, v in original_sections.get("_raw", {}).items()
-              if k not in ("dependencies", "devDependencies")}
+              if k not in ("dependencies", "devDependencies", "peerDependencies")}
     result["dependencies"] = deps
     result["devDependencies"] = dev_deps
+    if peer_deps:
+        result["peerDependencies"] = peer_deps
     return json.dumps(result, indent=2)
 
+
+# ---------------------------------------------------------------------------
+# JSON parsing helpers
+# ---------------------------------------------------------------------------
 
 def clean_gemini_response(raw: str) -> str:
     fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
@@ -267,11 +291,20 @@ def clean_gemini_response(raw: str) -> str:
 
 
 def parse_suggested_fix(item: str):
-    match = re.match(r"^([a-zA-Z0-9_\-]+)[><=!]+=?\s*([\d\.]+)", item.strip())
+    """
+    Parses fix strings including scoped npm packages like @org/pkg==1.0.0.
+    Supports: pkg==1.0.0, @org/pkg==1.0.0, pkg>=1.0.0
+    """
+    # Matches optional @scope/name or plain name, followed by version operator and version
+    match = re.match(r"^(@?[a-zA-Z0-9_\-]+(?:/[a-zA-Z0-9_\-]+)?)[><=!]+=?\s*([\d\.]+)", item.strip())
     if match:
         return match.group(1).strip(), match.group(2).strip()
     return None, None
 
+
+# ---------------------------------------------------------------------------
+# Main execute function
+# ---------------------------------------------------------------------------
 
 def execute(plan_tasks, combined_deps, original_sections, file_type):
     ecosystem = detect_ecosystem(file_type)

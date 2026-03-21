@@ -26,12 +26,13 @@ def get_prefix(version):
 
 def parse_package_json(file_content):
     """
-    Parses package.json and keeps dependencies & devDependencies separate.
-    Only returns normalized versions.
+    Parses package.json keeping dependencies, devDependencies,
+    and peerDependencies separate. Supports scoped packages like @org/pkg.
     """
     data = json.loads(file_content)
     deps = {}
     dev_deps = {}
+    peer_deps = {}
 
     for pkg, version in data.get("dependencies", {}).items():
         deps[pkg] = {
@@ -45,7 +46,18 @@ def parse_package_json(file_content):
             "version": normalize_version(version)
         }
 
-    return {"dependencies": deps, "devDependencies": dev_deps, "_raw": data}
+    for pkg, version in data.get("peerDependencies", {}).items():
+        peer_deps[pkg] = {
+            "prefix": get_prefix(version),
+            "version": normalize_version(version)
+        }
+
+    return {
+        "dependencies": deps,
+        "devDependencies": dev_deps,
+        "peerDependencies": peer_deps,
+        "_raw": data
+    }
 
 
 def parse_requirements(file_content):
