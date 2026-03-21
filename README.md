@@ -8,22 +8,20 @@ Open-source projects rely on hundreds of dependencies. Outdated or vulnerable pa
 
 ## Solution
 
-AI Open-Source Dependency Guardian automates dependency risk assessment by scanning common project files and cross-referencing trusted vulnerability databases — with zero hallucination.
+AI Open-Source Dependency Guardian automates dependency risk assessment by scanning common project files and cross-referencing trusted vulnerability databases - with zero hallucination.
 
-- **Real CVE data** — queries OSV.dev directly for verified vulnerabilities. No AI guessing.
-- **Accurate CVSS scoring** — parses CVSS vector strings using the `cvss` library to compute real numeric base scores (e.g. 9.8, 7.5) instead of estimates.
-- **Most secure fix version** — queries OSV without a version filter to find the highest fixed version across all known CVEs for a package — the version that fixes everything.
-- **Zero hallucination** — Gemini's only role is explaining vulnerabilities in plain English and mapping them to business impact. It never decides CVE IDs, CVSS scores, or fix versions.
-- **Loop-free rescanning** — version comparison logic detects when a package is already at or beyond the clean version, marking it secure and stopping infinite upgrade loops.
-- **Patched file generation** — auto-creates a patched `requirements.txt` or `package.json` preserving all original fields, with only vulnerable packages upgraded.
-- **Risk tracking over time** — stores previous scans and highlights risk score improvements or regressions between scans.
-- **Clickable CVE references** — each CVE links directly to NVD for independent verification.
+- **Real CVE data** - queries OSV.dev directly for verified vulnerabilities. No AI guessing.
+- **Accurate CVSS scoring** - parses CVSS vector strings using the `cvss` library to compute real numeric base scores (e.g. 9.8, 7.5) instead of estimates.
+- **Most secure fix version** - queries OSV without a version filter to find the highest fixed version across all known CVEs for a package - the version that fixes everything.
+- **Zero hallucination** - Gemini's only role is explaining vulnerabilities in plain English and mapping them to business impact. It never decides CVE IDs, CVSS scores, or fix versions.
+- **Loop-free rescanning** - version comparison logic detects when a package is already at or beyond the clean version, marking it secure and stopping infinite upgrade loops.
+- **Patched file generation** - auto-creates a patched `requirements.txt` or `package.json` preserving all original fields, with only vulnerable packages upgraded.
+- **Risk tracking over time** - stores previous scans and highlights risk score improvements or regressions between scans.
+- **Clickable CVE references** - each CVE links directly to NVD for independent verification.
 
 ### YouTube Demo
 [![Watch the Demo](https://img.youtube.com/vi/4YxTJUh-PK4/hqdefault.jpg)](https://youtu.be/4YxTJUh-PK4)
 
-### Live Project
-[Try the Live App](https://ai-open-source-dependency-guardian.streamlit.app/)
 
 ---
 
@@ -40,17 +38,17 @@ Upload requirements.txt / package.json
             ↓
     Parse dependencies (parser.py)
             ↓
-    OSV.dev API — query current version
+    OSV.dev API - query current version
     → Get real CVEs + CVSS scores
             ↓
-    OSV.dev API — query without version
+    OSV.dev API - query without version
     → Find highest fixed version (most secure)
             ↓
     Version check: current >= clean?
     → Yes: mark secure, skip Gemini
     → No:  pass real CVE data to Gemini
             ↓
-    Gemini — explain risk in plain English
+    Gemini - explain risk in plain English
     + calculate overall risk score (0-100)
             ↓
     Generate patched dependency file
@@ -152,10 +150,10 @@ Upload requirements.txt / package.json
 ## Key Design Decisions
 
 **Why OSV.dev instead of relying on Gemini for CVEs?**
-LLMs hallucinate CVE data — assigning wrong CVE IDs, incorrect CVSS scores, and suggesting arbitrary fix versions. OSV.dev is an authoritative, machine-readable vulnerability database maintained by Google. Using it as the source of truth eliminates hallucination entirely.
+LLMs hallucinate CVE data - assigning wrong CVE IDs, incorrect CVSS scores, and suggesting arbitrary fix versions. OSV.dev is an authoritative, machine-readable vulnerability database maintained by Google. Using it as the source of truth eliminates hallucination entirely.
 
 **Why minimum safe version instead of latest?**
-Industry-standard SCA tools (Snyk, Dependabot, OWASP Dependency Check) suggest the minimum version that fixes known CVEs — not the absolute latest. Major version bumps introduce breaking changes. The minimum safe version is a targeted, verified fix. Users can upgrade further as part of scheduled dependency reviews.
+Industry-standard SCA tools (Snyk, Dependabot, OWASP Dependency Check) suggest the minimum version that fixes known CVEs - not the absolute latest. Major version bumps introduce breaking changes. The minimum safe version is a targeted, verified fix. Users can upgrade further as part of scheduled dependency reviews.
 
 **Why does Gemini only explain?**
 Gemini is excellent at translating technical CVE summaries into plain English with business context. It is not a reliable vulnerability database. Separating these responsibilities gives accurate data + clear communication.
@@ -173,11 +171,11 @@ Gemini is excellent at translating technical CVE summaries into plain English wi
 
 ## Future Improvements
 
-- **Interactive Chatbot Mode** — conversational follow-up questions about specific vulnerabilities
-- **Automated PR Generation** — create pull requests with patched files directly in CI/CD pipelines
-- **File Versioning** — track dependency changes and risk evolution over time
-- **Multi-file scanning** — scan entire repositories at once
-- **SBOM Export** — generate Software Bill of Materials in CycloneDX or SPDX format
+- **Interactive Chatbot Mode** - conversational follow-up questions about specific vulnerabilities
+- **Automated PR Generation** - create pull requests with patched files directly in CI/CD pipelines
+- **File Versioning** - track dependency changes and risk evolution over time
+- **Multi-file scanning** - scan entire repositories at once
+- **SBOM Export** - generate Software Bill of Materials in CycloneDX or SPDX format
 
 ---
 
