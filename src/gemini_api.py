@@ -4,13 +4,13 @@ from dotenv import load_dotenv
 import streamlit as st
 
 # If running locally and have API key in .env
-#Comment the next 2 lines and uncomment the streamlit secrets line
-load_dotenv()
-GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+# Uncomment the next 2 lines and comment the streamlit secrets line
+#load_dotenv()
+#GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
 
 # If you have API key stored in Streamlit Secrets
 
-#GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 
 GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent'
 
