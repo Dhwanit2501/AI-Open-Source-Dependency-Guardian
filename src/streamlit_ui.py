@@ -266,17 +266,27 @@ def main():
 
                 st.markdown(download_link, unsafe_allow_html=True)
 
-            # Side-by-side original and patched file comparision
+            # Side-by-side original and patched file comparison
             st.subheader("📂 File Comparison")
+
+            def render_code_block(content):
+                st.markdown(
+                    f"<pre style='background-color:#0e1117; color:#00ff99; padding:15px; "
+                    f"border-radius:8px; font-size:0.85rem; overflow-x:auto; "
+                    f"border: 1px solid #333; white-space:pre-wrap; word-wrap:break-word;'>"
+                    f"{content}</pre>",
+                    unsafe_allow_html=True
+                )
+
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("**Original File**")
                 with open(tmp_file_path, 'r') as f:
                     original_content = f.read()
-                st.code(original_content, language="json" if uploaded_file.name.endswith(".json") else "text")
+                render_code_block(original_content)
             with col2:
                 st.markdown("**Patched File**")
-                st.code(patched_file, language="json" if uploaded_file.name.endswith(".json") else "text")
+                render_code_block(patched_file)
 
         except Exception as e:
             error_msg = str(e)
