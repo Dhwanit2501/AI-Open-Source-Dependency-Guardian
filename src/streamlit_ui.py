@@ -270,11 +270,13 @@ def main():
             st.subheader("📂 File Comparison")
 
             def render_code_block(content):
+                import html
+                escaped = html.escape(content)
                 st.markdown(
                     f"<pre style='background-color:#0e1117; color:#00ff99; padding:15px; "
-                    f"border-radius:8px; font-size:0.85rem; overflow-x:auto; "
-                    f"border: 1px solid #333; white-space:pre-wrap; word-wrap:break-word;'>"
-                    f"{content}</pre>",
+                    f"border-radius:8px; font-size:0.82rem; overflow-x:auto; "
+                    f"border: 1px solid #333; white-space:pre; word-wrap:normal; "
+                    f"max-height:400px; overflow-y:auto;'>{escaped}</pre>",
                     unsafe_allow_html=True
                 )
 
