@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 import tempfile
 import os
@@ -206,8 +204,40 @@ def main():
                         f"{highlight_severity(dep['severity'])}",
                         unsafe_allow_html=True
                     )
+                    # Display CVE badges horizontally, wrapping as needed
+                    cve_ids = dep.get("cve_ids", [])
+                    if cve_ids:
+                        badges = ""
+                        for cid in cve_ids:
+                            url = (f"https://nvd.nist.gov/vuln/detail/{cid}"
+                                   if cid.startswith("CVE-")
+                                   else f"https://osv.dev/vulnerability/{cid}")
+                            badges += (
+                                f"<a href='{url}' target='_blank' style='"
+                                f"display:inline-block; margin:3px 4px 3px 0; padding:3px 10px;"
+                                f"background-color:#1e3a5f; color:#58a6ff;"
+                                f"border-radius:4px; font-size:0.85rem;"
+                                f"text-decoration:none; font-family:monospace;'>"
+                                f"🔗 {cid}</a>"
+                            )
+                        st.markdown(
+                            f"<div style='margin-bottom:8px;'><b>Known CVEs:</b><br>"
+                            f"<div style='display:flex; flex-wrap:wrap; gap:2px; margin-top:6px;'>"
+                            f"{badges}</div></div>",
+                            unsafe_allow_html=True
+                        )
                     st.write(dep['explanation'])
                     st.markdown(f"✅ **Suggested Fix:** `{dep['fix']}`")
+                    st.markdown(
+                        "<div style='margin-top:8px; padding:8px 12px; "
+                        "background-color:rgba(255,193,7,0.1); border-left:3px solid #ffc107;"
+                        "border-radius:4px; font-size:0.82rem; color:#aaa;'>"
+                        "💡 This is the <b>minimum safe version</b> that resolves known CVEs. "
+                        "Consider upgrading to the latest stable release as part of your "
+                        "scheduled dependency review."
+                        "</div>",
+                        unsafe_allow_html=True
+                    )
 
             # Download patched file
             if patched_file:
@@ -249,7 +279,16 @@ def main():
                 st.code(patched_file, language="json" if uploaded_file.name.endswith(".json") else "text")
 
         except Exception as e:
-            st.error(f"❌ Error processing file: {str(e)}")
+            error_msg = str(e)
+            if "429" in error_msg:
+                st.warning(
+                    "⏳ **Rate limit reached.** You've hit the Gemini API request limit. "
+                    "Please wait a minute and try again. "
+                    "If this keeps happening, consider enabling billing on "
+                    "[Google AI Studio](https://aistudio.google.com) for higher limits."
+                )
+            else:
+                st.error("❌ Something went wrong while processing your file. Please try again.")
         finally:
             os.unlink(tmp_file_path)
 

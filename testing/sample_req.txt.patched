@@ -1,4 +1,0 @@
-django>=4.0
-requests>=2.31
-numpy>=1.18.0
-flask>=1.0.2

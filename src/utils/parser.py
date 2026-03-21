@@ -45,7 +45,7 @@ def parse_package_json(file_content):
             "version": normalize_version(version)
         }
 
-    return {"dependencies": deps, "devDependencies": dev_deps}
+    return {"dependencies": deps, "devDependencies": dev_deps, "_raw": data}
 
 
 def parse_requirements(file_content):
