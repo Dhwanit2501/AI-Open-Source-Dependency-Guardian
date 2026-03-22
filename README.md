@@ -20,7 +20,7 @@ AI Open-Source Dependency Guardian automates dependency risk assessment by scann
 - **Clickable CVE references** - each CVE links directly to NVD for independent verification.
 
 ### YouTube Demo
-[![Watch the Demo](https://img.youtube.com/vi/4YxTJUh-PK4/hqdefault.jpg)](https://youtu.be/4YxTJUh-PK4)
+[![Watch the Demo](https://i9.ytimg.com/vi/R2j7DPsv0D0/maxresdefault.jpg?v=69c06c44&sqp=CLzYgc4G&rs=AOn4CLBL4Ukk9ov67j7y9iXil4hlb1Irlg)](https://youtu.be/R2j7DPsv0D0)
 
 
 ---
@@ -181,4 +181,4 @@ Gemini is excellent at translating technical CVE summaries into plain English wi
 
 ## Contributors
 
-Built collaboratively by [@Dhwanit2501](https://github.com/Dhwanit2501) and [@bhingle](https://github.com/bhingle)
+Built collaboratively by [@Dhwanit Pandya](https://github.com/Dhwanit2501) and [@Abhishek Bhingle](https://github.com/bhingle)
