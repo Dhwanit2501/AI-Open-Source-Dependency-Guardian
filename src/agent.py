@@ -39,4 +39,4 @@ def agent_main(file_key,dep_file_path):
     })
 
 
-    return parsed_results, patched_file, risk_score, improvement
+    return parsed_results, patched_file, risk_score, improvement, parsed_data

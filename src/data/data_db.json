@@ -1,0 +1,879 @@
+{
+  "package (3).json": {
+    "dependencies": {
+      "dependencies": {
+        "@ai-sdk/amazon-bedrock": {
+          "prefix": "^",
+          "version": "4.0.69"
+        },
+        "@ai-sdk/anthropic": {
+          "prefix": "^",
+          "version": "3.0.50"
+        },
+        "@ai-sdk/google": {
+          "prefix": "^",
+          "version": "3.0.37"
+        },
+        "@ai-sdk/openai": {
+          "prefix": "",
+          "version": "3.0.46"
+        },
+        "@ai-sdk/openai-compatible": {
+          "prefix": "^",
+          "version": "2.0.35"
+        },
+        "@daytonaio/sdk": {
+          "prefix": "^",
+          "version": "0.112.1"
+        },
+        "@googleapis/gmail": {
+          "prefix": "^",
+          "version": "16.1.1"
+        },
+        "@microsoft/microsoft-graph-client": {
+          "prefix": "^",
+          "version": "3.0.7"
+        },
+        "@modelcontextprotocol/sdk": {
+          "prefix": "^",
+          "version": "1.0.0"
+        },
+        "@openrouter/ai-sdk-provider": {
+          "prefix": "^",
+          "version": "2.2.3"
+        },
+        "@opentui/core": {
+          "prefix": "^",
+          "version": "0.1.80"
+        },
+        "@opentui/react": {
+          "prefix": "^",
+          "version": "0.1.80"
+        },
+        "ai": {
+          "prefix": "^",
+          "version": "6.0.105"
+        },
+        "glob": {
+          "prefix": "^",
+          "version": "13.0.0"
+        },
+        "google-auth-library": {
+          "prefix": "^",
+          "version": "10.6.1"
+        },
+        "highlight.js": {
+          "prefix": "^",
+          "version": "11.11.1"
+        },
+        "ignore": {
+          "prefix": "^",
+          "version": "7.0.5"
+        },
+        "imapflow": {
+          "prefix": "^",
+          "version": "1.2.10"
+        },
+        "mailparser": {
+          "prefix": "^",
+          "version": "3.9.3"
+        },
+        "marked": {
+          "prefix": "^",
+          "version": "16.4.0"
+        },
+        "nanoid": {
+          "prefix": "^",
+          "version": "5.1.6"
+        },
+        "p-limit": {
+          "prefix": "^",
+          "version": "7.2.0"
+        },
+        "react": {
+          "prefix": "^",
+          "version": "19.2.0"
+        },
+        "sharp": {
+          "prefix": "^",
+          "version": "0.34.4"
+        },
+        "yaml": {
+          "prefix": "^",
+          "version": "2.8.2"
+        },
+        "zod": {
+          "prefix": "^",
+          "version": "3.25.76"
+        }
+      },
+      "devDependencies": {
+        "@eslint/js": {
+          "prefix": "^",
+          "version": "10.0.1"
+        },
+        "@playwright/mcp": {
+          "prefix": "^",
+          "version": "0.0.54"
+        },
+        "@types/bun": {
+          "prefix": "^",
+          "version": "1.3.0"
+        },
+        "@types/mailparser": {
+          "prefix": "^",
+          "version": "3.4.6"
+        },
+        "@types/react": {
+          "prefix": "^",
+          "version": "19.2.6"
+        },
+        "@typescript-eslint/eslint-plugin": {
+          "prefix": "^",
+          "version": "8.55.0"
+        },
+        "@typescript-eslint/parser": {
+          "prefix": "^",
+          "version": "8.55.0"
+        },
+        "dotenv": {
+          "prefix": "^",
+          "version": "17.2.3"
+        },
+        "eslint": {
+          "prefix": "^",
+          "version": "10.0.0"
+        },
+        "eslint-config-prettier": {
+          "prefix": "^",
+          "version": "10.1.8"
+        },
+        "eslint-plugin-unused-imports": {
+          "prefix": "^",
+          "version": "4.4.1"
+        },
+        "prettier": {
+          "prefix": "^",
+          "version": "3.8.1"
+        },
+        "typescript-eslint": {
+          "prefix": "^",
+          "version": "8.55.0"
+        },
+        "vitest": {
+          "prefix": "^",
+          "version": "2.1.8"
+        }
+      },
+      "peerDependencies": {
+        "typescript": {
+          "prefix": "^",
+          "version": "5.9.3"
+        }
+      },
+      "_raw": {
+        "name": "@pensar/apex",
+        "version": "0.0.114",
+        "description": "AI-powered penetration testing CLI tool with terminal UI",
+        "module": "src/tui/index.tsx",
+        "main": "build/cli.js",
+        "type": "module",
+        "repository": {
+          "type": "git",
+          "url": "https://github.com/pensarai/apex.git"
+        },
+        "bin": {
+          "pensar": "./bin/pensar.js"
+        },
+        "files": [
+          "build",
+          "bin",
+          "pensar.svg",
+          "LICENSE"
+        ],
+        "scripts": {
+          "build": "bun build src/cli.ts --outdir build --target node --format esm --splitting --external @opentui/core --external @opentui/react --external @opentui/react/* --external react --external react/jsx-runtime --external react/jsx-dev-runtime --external react-reconciler",
+          "generate:ascii": "bun run scripts/generate-ascii-art.ts",
+          "generate:models": "bun run scripts/generate-models.ts",
+          "build:binary": "bun run generate:ascii && bun build src/cli.ts --compile --outfile pensar",
+          "build:binary:macos-arm64": "bun build src/cli.ts --compile --target=bun-darwin-arm64 --outfile dist/pensar-darwin-arm64",
+          "build:binary:macos-x64": "bun build src/cli.ts --compile --target=bun-darwin-x64 --outfile dist/pensar-darwin-x64",
+          "build:binary:linux-x64": "bun build src/cli.ts --compile --target=bun-linux-x64 --outfile dist/pensar-linux-x64",
+          "build:binary:linux-arm64": "bun build src/cli.ts --compile --target=bun-linux-arm64 --outfile dist/pensar-linux-arm64",
+          "build:binaries": "bun run generate:ascii && mkdir -p dist && bun run build:binary:macos-arm64 && bun run build:binary:macos-x64 && bun run build:binary:linux-x64 && bun run build:binary:linux-arm64",
+          "dev": "bun run scripts/watch.ts",
+          "dev:debug": "SHOW_CONSOLE=true bun run scripts/watch.ts",
+          "start": "bun run src/tui/index.tsx",
+          "pensar": "node bin/pensar.js",
+          "tsc": "tsc --noEmit",
+          "daytona-benchmark": "bun run scripts/daytona-benchmark.ts",
+          "local-benchmark": "bun run scripts/local-benchmark.ts",
+          "test": "vitest run",
+          "test:watch": "vitest",
+          "lint": "eslint src/",
+          "format": "prettier --write .",
+          "format:check": "prettier --check .",
+          "prepublishOnly": "npm run build"
+        },
+        "keywords": [
+          "penetration-testing",
+          "security",
+          "pentesting",
+          "ai",
+          "cli",
+          "terminal",
+          "tui"
+        ],
+        "author": "Pensar",
+        "license": "MIT",
+        "engines": {
+          "node": ">=18.0.0",
+          "bun": ">=1.0.0"
+        },
+        "devDependencies": {
+          "@eslint/js": "^10.0.1",
+          "@playwright/mcp": "^0.0.54",
+          "@types/bun": "^1.3.0",
+          "@types/mailparser": "^3.4.6",
+          "@types/react": "^19.2.6",
+          "@typescript-eslint/eslint-plugin": "^8.55.0",
+          "@typescript-eslint/parser": "^8.55.0",
+          "dotenv": "^17.2.3",
+          "eslint": "^10.0.0",
+          "eslint-config-prettier": "^10.1.8",
+          "eslint-plugin-unused-imports": "^4.4.1",
+          "prettier": "^3.8.1",
+          "typescript-eslint": "^8.55.0",
+          "vitest": "^2.1.8"
+        },
+        "peerDependencies": {
+          "typescript": "^5.9.3"
+        },
+        "dependencies": {
+          "@ai-sdk/amazon-bedrock": "^4.0.69",
+          "@ai-sdk/anthropic": "^3.0.50",
+          "@ai-sdk/google": "^3.0.37",
+          "@ai-sdk/openai": "3.0.46",
+          "@ai-sdk/openai-compatible": "^2.0.35",
+          "@daytonaio/sdk": "^0.112.1",
+          "@googleapis/gmail": "^16.1.1",
+          "@microsoft/microsoft-graph-client": "^3.0.7",
+          "@modelcontextprotocol/sdk": "^1.0.0",
+          "@openrouter/ai-sdk-provider": "^2.2.3",
+          "@opentui/core": "^0.1.80",
+          "@opentui/react": "^0.1.80",
+          "ai": "^6.0.105",
+          "glob": "^13.0.0",
+          "google-auth-library": "^10.6.1",
+          "highlight.js": "^11.11.1",
+          "ignore": "^7.0.5",
+          "imapflow": "^1.2.10",
+          "mailparser": "^3.9.3",
+          "marked": "^16.4.0",
+          "nanoid": "^5.1.6",
+          "p-limit": "^7.2.0",
+          "react": "^19.2.0",
+          "sharp": "^0.34.4",
+          "yaml": "^2.8.2",
+          "zod": "^3.25.76"
+        },
+        "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+      }
+    },
+    "risk_score": 3,
+    "report": [
+      {
+        "package": "@ai-sdk/amazon-bedrock",
+        "current_version": "4.0.69",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@ai-sdk/amazon-bedrock==4.0.69",
+        "cve_ids": []
+      },
+      {
+        "package": "@ai-sdk/anthropic",
+        "current_version": "3.0.50",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@ai-sdk/anthropic==3.0.50",
+        "cve_ids": []
+      },
+      {
+        "package": "@ai-sdk/google",
+        "current_version": "3.0.37",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@ai-sdk/google==3.0.37",
+        "cve_ids": []
+      },
+      {
+        "package": "@ai-sdk/openai",
+        "current_version": "3.0.46",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@ai-sdk/openai==3.0.46",
+        "cve_ids": []
+      },
+      {
+        "package": "@ai-sdk/openai-compatible",
+        "current_version": "2.0.35",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@ai-sdk/openai-compatible==2.0.35",
+        "cve_ids": []
+      },
+      {
+        "package": "@daytonaio/sdk",
+        "current_version": "0.112.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@daytonaio/sdk==0.112.1",
+        "cve_ids": []
+      },
+      {
+        "package": "@googleapis/gmail",
+        "current_version": "16.1.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@googleapis/gmail==16.1.1",
+        "cve_ids": []
+      },
+      {
+        "package": "@microsoft/microsoft-graph-client",
+        "current_version": "3.0.7",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@microsoft/microsoft-graph-client==3.0.7",
+        "cve_ids": []
+      },
+      {
+        "package": "@modelcontextprotocol/sdk",
+        "current_version": "1.0.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This library contains a vulnerability known as 'Regular Expression Denial of Service' (ReDoS). While the technical severity is assessed as low (CVSS 0.0), this type of issue means that a complex or malicious input could potentially cause the application to slow down significantly or become temporarily unresponsive when processing specific patterns.",
+        "fix": "@modelcontextprotocol/sdk==1.26.0",
+        "cve_ids": [
+          "CVE-2026-0621",
+          "CVE-2025-66414"
+        ]
+      },
+      {
+        "package": "@openrouter/ai-sdk-provider",
+        "current_version": "2.2.3",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@openrouter/ai-sdk-provider==2.2.3",
+        "cve_ids": []
+      },
+      {
+        "package": "@opentui/core",
+        "current_version": "0.1.80",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@opentui/core==0.1.80",
+        "cve_ids": []
+      },
+      {
+        "package": "@opentui/react",
+        "current_version": "0.1.80",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@opentui/react==0.1.80",
+        "cve_ids": []
+      },
+      {
+        "package": "ai",
+        "current_version": "6.0.105",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "ai==6.0.105",
+        "cve_ids": []
+      },
+      {
+        "package": "glob",
+        "current_version": "13.0.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "glob==13.0.0",
+        "cve_ids": []
+      },
+      {
+        "package": "google-auth-library",
+        "current_version": "10.6.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "google-auth-library==10.6.1",
+        "cve_ids": []
+      },
+      {
+        "package": "highlight.js",
+        "current_version": "11.11.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "highlight.js==11.11.1",
+        "cve_ids": []
+      },
+      {
+        "package": "ignore",
+        "current_version": "7.0.5",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "ignore==7.0.5",
+        "cve_ids": []
+      },
+      {
+        "package": "imapflow",
+        "current_version": "1.2.10",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "imapflow==1.2.10",
+        "cve_ids": []
+      },
+      {
+        "package": "mailparser",
+        "current_version": "3.9.3",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "mailparser==3.9.3",
+        "cve_ids": []
+      },
+      {
+        "package": "marked",
+        "current_version": "16.4.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "marked==16.4.0",
+        "cve_ids": []
+      },
+      {
+        "package": "nanoid",
+        "current_version": "5.1.6",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "nanoid==5.1.6",
+        "cve_ids": []
+      },
+      {
+        "package": "p-limit",
+        "current_version": "7.2.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "p-limit==7.2.0",
+        "cve_ids": []
+      },
+      {
+        "package": "react",
+        "current_version": "19.2.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "react==19.2.0",
+        "cve_ids": []
+      },
+      {
+        "package": "sharp",
+        "current_version": "0.34.4",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "sharp==0.34.4",
+        "cve_ids": []
+      },
+      {
+        "package": "yaml",
+        "current_version": "2.8.2",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "yaml==2.8.2",
+        "cve_ids": []
+      },
+      {
+        "package": "zod",
+        "current_version": "3.25.76",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "zod==3.25.76",
+        "cve_ids": []
+      },
+      {
+        "package": "@eslint/js",
+        "current_version": "10.0.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@eslint/js==10.0.1",
+        "cve_ids": []
+      },
+      {
+        "package": "@playwright/mcp",
+        "current_version": "0.0.54",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@playwright/mcp==0.0.54",
+        "cve_ids": []
+      },
+      {
+        "package": "@types/bun",
+        "current_version": "1.3.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@types/bun==1.3.0",
+        "cve_ids": []
+      },
+      {
+        "package": "@types/mailparser",
+        "current_version": "3.4.6",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@types/mailparser==3.4.6",
+        "cve_ids": []
+      },
+      {
+        "package": "@types/react",
+        "current_version": "19.2.6",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@types/react==19.2.6",
+        "cve_ids": []
+      },
+      {
+        "package": "@typescript-eslint/eslint-plugin",
+        "current_version": "8.55.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@typescript-eslint/eslint-plugin==8.55.0",
+        "cve_ids": []
+      },
+      {
+        "package": "@typescript-eslint/parser",
+        "current_version": "8.55.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "@typescript-eslint/parser==8.55.0",
+        "cve_ids": []
+      },
+      {
+        "package": "dotenv",
+        "current_version": "17.2.3",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "dotenv==17.2.3",
+        "cve_ids": []
+      },
+      {
+        "package": "eslint",
+        "current_version": "10.0.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "eslint==10.0.0",
+        "cve_ids": []
+      },
+      {
+        "package": "eslint-config-prettier",
+        "current_version": "10.1.8",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "eslint-config-prettier==10.1.8",
+        "cve_ids": []
+      },
+      {
+        "package": "eslint-plugin-unused-imports",
+        "current_version": "4.4.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "eslint-plugin-unused-imports==4.4.1",
+        "cve_ids": []
+      },
+      {
+        "package": "prettier",
+        "current_version": "3.8.1",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "prettier==3.8.1",
+        "cve_ids": []
+      },
+      {
+        "package": "typescript-eslint",
+        "current_version": "8.55.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "typescript-eslint==8.55.0",
+        "cve_ids": []
+      },
+      {
+        "package": "vitest",
+        "current_version": "2.1.8",
+        "cvss": "9.6",
+        "severity": "Critical",
+        "explanation": "This library has a critical security flaw that could allow an attacker to run malicious code on your system. This can happen if someone accesses a specially crafted (malicious) website while the Vitest API server is active and listening, typically during development or testing. This is a severe issue because it could lead to unauthorized control over your development environment or sensitive data.",
+        "fix": "vitest==3.0.5",
+        "cve_ids": [
+          "CVE-2025-24964"
+        ]
+      },
+      {
+        "package": "typescript",
+        "current_version": "5.9.3",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has been verified to have no known security vulnerabilities at this time.",
+        "fix": "typescript==5.9.3",
+        "cve_ids": []
+      }
+    ],
+    "patched_file": "{\n  \"name\": \"@pensar/apex\",\n  \"version\": \"0.0.114\",\n  \"description\": \"AI-powered penetration testing CLI tool with terminal UI\",\n  \"module\": \"src/tui/index.tsx\",\n  \"main\": \"build/cli.js\",\n  \"type\": \"module\",\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/pensarai/apex.git\"\n  },\n  \"bin\": {\n    \"pensar\": \"./bin/pensar.js\"\n  },\n  \"files\": [\n    \"build\",\n    \"bin\",\n    \"pensar.svg\",\n    \"LICENSE\"\n  ],\n  \"scripts\": {\n    \"build\": \"bun build src/cli.ts --outdir build --target node --format esm --splitting --external @opentui/core --external @opentui/react --external @opentui/react/* --external react --external react/jsx-runtime --external react/jsx-dev-runtime --external react-reconciler\",\n    \"generate:ascii\": \"bun run scripts/generate-ascii-art.ts\",\n    \"generate:models\": \"bun run scripts/generate-models.ts\",\n    \"build:binary\": \"bun run generate:ascii && bun build src/cli.ts --compile --outfile pensar\",\n    \"build:binary:macos-arm64\": \"bun build src/cli.ts --compile --target=bun-darwin-arm64 --outfile dist/pensar-darwin-arm64\",\n    \"build:binary:macos-x64\": \"bun build src/cli.ts --compile --target=bun-darwin-x64 --outfile dist/pensar-darwin-x64\",\n    \"build:binary:linux-x64\": \"bun build src/cli.ts --compile --target=bun-linux-x64 --outfile dist/pensar-linux-x64\",\n    \"build:binary:linux-arm64\": \"bun build src/cli.ts --compile --target=bun-linux-arm64 --outfile dist/pensar-linux-arm64\",\n    \"build:binaries\": \"bun run generate:ascii && mkdir -p dist && bun run build:binary:macos-arm64 && bun run build:binary:macos-x64 && bun run build:binary:linux-x64 && bun run build:binary:linux-arm64\",\n    \"dev\": \"bun run scripts/watch.ts\",\n    \"dev:debug\": \"SHOW_CONSOLE=true bun run scripts/watch.ts\",\n    \"start\": \"bun run src/tui/index.tsx\",\n    \"pensar\": \"node bin/pensar.js\",\n    \"tsc\": \"tsc --noEmit\",\n    \"daytona-benchmark\": \"bun run scripts/daytona-benchmark.ts\",\n    \"local-benchmark\": \"bun run scripts/local-benchmark.ts\",\n    \"test\": \"vitest run\",\n    \"test:watch\": \"vitest\",\n    \"lint\": \"eslint src/\",\n    \"format\": \"prettier --write .\",\n    \"format:check\": \"prettier --check .\",\n    \"prepublishOnly\": \"npm run build\"\n  },\n  \"keywords\": [\n    \"penetration-testing\",\n    \"security\",\n    \"pentesting\",\n    \"ai\",\n    \"cli\",\n    \"terminal\",\n    \"tui\"\n  ],\n  \"author\": \"Pensar\",\n  \"license\": \"MIT\",\n  \"engines\": {\n    \"node\": \">=18.0.0\",\n    \"bun\": \">=1.0.0\"\n  },\n  \"devDependencies\": {\n    \"@eslint/js\": \"^10.0.1\",\n    \"@playwright/mcp\": \"^0.0.54\",\n    \"@types/bun\": \"^1.3.0\",\n    \"@types/mailparser\": \"^3.4.6\",\n    \"@types/react\": \"^19.2.6\",\n    \"@typescript-eslint/eslint-plugin\": \"^8.55.0\",\n    \"@typescript-eslint/parser\": \"^8.55.0\",\n    \"dotenv\": \"^17.2.3\",\n    \"eslint\": \"^10.0.0\",\n    \"eslint-config-prettier\": \"^10.1.8\",\n    \"eslint-plugin-unused-imports\": \"^4.4.1\",\n    \"prettier\": \"^3.8.1\",\n    \"typescript-eslint\": \"^8.55.0\",\n    \"vitest\": \"^3.0.5\"\n  },\n  \"peerDependencies\": {\n    \"typescript\": \"^5.9.3\"\n  },\n  \"dependencies\": {\n    \"@ai-sdk/amazon-bedrock\": \"^4.0.69\",\n    \"@ai-sdk/anthropic\": \"^3.0.50\",\n    \"@ai-sdk/google\": \"^3.0.37\",\n    \"@ai-sdk/openai\": \"3.0.46\",\n    \"@ai-sdk/openai-compatible\": \"^2.0.35\",\n    \"@daytonaio/sdk\": \"^0.112.1\",\n    \"@googleapis/gmail\": \"^16.1.1\",\n    \"@microsoft/microsoft-graph-client\": \"^3.0.7\",\n    \"@modelcontextprotocol/sdk\": \"^1.26.0\",\n    \"@openrouter/ai-sdk-provider\": \"^2.2.3\",\n    \"@opentui/core\": \"^0.1.80\",\n    \"@opentui/react\": \"^0.1.80\",\n    \"ai\": \"^6.0.105\",\n    \"glob\": \"^13.0.0\",\n    \"google-auth-library\": \"^10.6.1\",\n    \"highlight.js\": \"^11.11.1\",\n    \"ignore\": \"^7.0.5\",\n    \"imapflow\": \"^1.2.10\",\n    \"mailparser\": \"^3.9.3\",\n    \"marked\": \"^16.4.0\",\n    \"nanoid\": \"^5.1.6\",\n    \"p-limit\": \"^7.2.0\",\n    \"react\": \"^19.2.0\",\n    \"sharp\": \"^0.34.4\",\n    \"yaml\": \"^2.8.2\",\n    \"zod\": \"^3.25.76\"\n  },\n  \"packageManager\": \"yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e\"\n}",
+    "scan_date": "2026-03-22T16:27:18.856314+00:00",
+    "file_type": "json"
+  },
+  "package.json": {
+    "dependencies": {
+      "dependencies": {
+        "express": {
+          "prefix": "^",
+          "version": "4.16.0"
+        },
+        "lodash": {
+          "prefix": "^",
+          "version": "4.17.4"
+        },
+        "axios": {
+          "prefix": "^",
+          "version": "0.19.0"
+        },
+        "moment": {
+          "prefix": "^",
+          "version": "2.24.0"
+        }
+      },
+      "devDependencies": {
+        "webpack": {
+          "prefix": "^",
+          "version": "4.29.0"
+        },
+        "node-sass": {
+          "prefix": "^",
+          "version": "4.11.0"
+        }
+      },
+      "peerDependencies": {},
+      "_raw": {
+        "name": "sample-app",
+        "version": "1.0.0",
+        "dependencies": {
+          "express": "^4.16.0",
+          "lodash": "^4.17.4",
+          "axios": "^0.19.0",
+          "moment": "^2.24.0"
+        },
+        "devDependencies": {
+          "webpack": "^4.29.0",
+          "node-sass": "^4.11.0"
+        }
+      }
+    },
+    "risk_score": 57,
+    "report": [
+      {
+        "package": "express",
+        "current_version": "4.16.0",
+        "cvss": "6.1",
+        "severity": "Medium",
+        "explanation": "This vulnerability, known as an 'Open Redirect', means that an attacker could trick users into clicking on a seemingly legitimate link that actually redirects them to a malicious website. This could be used for phishing attacks, where users are prompted to enter sensitive information on a fake site, or to deliver malware. For our application, this risk means users could be exposed to external threats if they interact with malformed URLs processed by Express.",
+        "fix": "express==5.0.0",
+        "cve_ids": [
+          "CVE-2024-43796",
+          "CVE-2024-29041"
+        ]
+      },
+      {
+        "package": "lodash",
+        "current_version": "4.17.4",
+        "cvss": "9.1",
+        "severity": "Critical",
+        "explanation": "This 'Prototype Pollution' vulnerability allows an attacker to inject malicious code into our application that affects how all objects of a certain type behave. This is extremely serious as it could lead to remote code execution (where an attacker takes control of the server), denial of service (making the application unavailable), or information disclosure (leaking sensitive data). Addressing this is critical to prevent severe system compromise.",
+        "fix": "lodash==4.17.23",
+        "cve_ids": [
+          "CVE-2020-28500",
+          "CVE-2021-23337",
+          "CVE-2018-16487",
+          "CVE-2018-3721",
+          "CVE-2019-10744"
+        ]
+      },
+      {
+        "package": "axios",
+        "current_version": "0.19.0",
+        "cvss": "7.5",
+        "severity": "High",
+        "explanation": "This 'Denial of Service (DoS)' vulnerability means an attacker could make our application or service unavailable to legitimate users. By sending a specially crafted request, an attacker could cause Axios to consume excessive resources or crash, preventing our application from responding to normal requests. This could lead to service downtime and impact user experience and business operations.",
+        "fix": "axios==1.13.5",
+        "cve_ids": [
+          "CVE-2026-25639",
+          "CVE-2020-28168",
+          "CVE-2021-3749",
+          "CVE-2025-27152",
+          "CVE-2023-45857"
+        ]
+      },
+      {
+        "package": "moment",
+        "current_version": "2.24.0",
+        "cvss": "7.5",
+        "severity": "High",
+        "explanation": "This 'Path Traversal' vulnerability allows an attacker to access files and directories stored outside the intended root directory of the application. By manipulating input paths, an attacker could read sensitive files on our server (like configuration files or user data) or even potentially write malicious files, leading to data breaches or further system compromise.",
+        "fix": "moment==2.29.4",
+        "cve_ids": [
+          "CVE-2022-24785",
+          "CVE-2022-31129"
+        ]
+      },
+      {
+        "package": "webpack",
+        "current_version": "4.29.0",
+        "cvss": "0.0",
+        "severity": "Low",
+        "explanation": "This dependency has no known security vulnerabilities that require action. It is considered safe.",
+        "fix": "webpack==4.29.0",
+        "cve_ids": []
+      },
+      {
+        "package": "node-sass",
+        "current_version": "4.11.0",
+        "cvss": "5.9",
+        "severity": "Medium",
+        "explanation": "This 'Denial of Service (DoS)' vulnerability means that an attacker could cause our application to become unresponsive or crash. Specially crafted input could exploit node-sass to consume excessive system resources, preventing legitimate users from accessing or using our application. This impacts the reliability and availability of our service.",
+        "fix": "node-sass==7.0.0",
+        "cve_ids": [
+          "GHSA-9v62-24cr-58cx",
+          "CVE-2020-24025"
+        ]
+      }
+    ],
+    "patched_file": "{\n  \"name\": \"sample-app\",\n  \"version\": \"1.0.0\",\n  \"dependencies\": {\n    \"express\": \"^5.0.0\",\n    \"lodash\": \"^4.17.23\",\n    \"axios\": \"^1.13.5\",\n    \"moment\": \"^2.29.4\"\n  },\n  \"devDependencies\": {\n    \"webpack\": \"^4.29.0\",\n    \"node-sass\": \"^7.0.0\"\n  }\n}",
+    "scan_date": "2026-03-22T16:28:19.493271+00:00",
+    "file_type": "json"
+  },
+  "sample_req.txt": {
+    "dependencies": {
+      "dependencies": {
+        "django": {
+          "prefix": "==",
+          "version": "2.2"
+        },
+        "requests": {
+          "prefix": "==",
+          "version": "2.10"
+        },
+        "numpy": {
+          "prefix": "==",
+          "version": "1.18.0"
+        },
+        "flask": {
+          "prefix": "==",
+          "version": "1.0.2"
+        }
+      },
+      "devDependencies": {}
+    },
+    "risk_score": 85,
+    "report": [
+      {
+        "package": "django",
+        "current_version": "2.2",
+        "cvss": "9.8",
+        "severity": "Critical",
+        "explanation": "Your application uses an outdated version of Django with a critical vulnerability related to SQL Injection. This means an attacker could potentially insert malicious code into your database queries, allowing them to steal, alter, or delete sensitive data, or even take full control of your database. This poses a severe risk to data integrity and confidentiality.",
+        "fix": "django==6.0.3",
+        "cve_ids": [
+          "CVE-2022-28346",
+          "CVE-2020-13596",
+          "CVE-2020-9402",
+          "CVE-2021-45115",
+          "CVE-2021-33203"
+        ]
+      },
+      {
+        "package": "requests",
+        "current_version": "2.10",
+        "cvss": "7.5",
+        "severity": "High",
+        "explanation": "The `requests` library in your application has a high-severity vulnerability where credentials might not be sufficiently protected. This could allow an attacker to intercept or access sensitive login information when your application communicates with other services, potentially leading to unauthorized access to other systems.",
+        "fix": "requests==2.32.4",
+        "cve_ids": [
+          "CVE-2024-47081",
+          "CVE-2024-35195",
+          "CVE-2023-32681",
+          "CVE-2018-18074",
+          "CVE-2018-18074"
+        ]
+      },
+      {
+        "package": "numpy",
+        "current_version": "1.18.0",
+        "cvss": "7.5",
+        "severity": "High",
+        "explanation": "Your `numpy` version is vulnerable to a 'NULL Pointer Dereference'. While typically not allowing full system control, this issue could cause your application to crash unexpectedly, leading to a denial of service. This means your application could become unavailable to users at critical times.",
+        "fix": "numpy==1.22",
+        "cve_ids": [
+          "CVE-2021-41495",
+          "CVE-2021-33430",
+          "CVE-2021-41496",
+          "CVE-2021-34141",
+          "CVE-2021-41495"
+        ]
+      },
+      {
+        "package": "flask",
+        "current_version": "1.0.2",
+        "cvss": "7.5",
+        "severity": "High",
+        "explanation": "The Flask framework used in your application has a vulnerability that could lead to the disclosure of permanent session cookies. An attacker could potentially steal these cookies to impersonate users, gaining unauthorized access to their accounts and sensitive information, even after they have closed their browser.",
+        "fix": "flask==3.1.3",
+        "cve_ids": [
+          "CVE-2026-27205",
+          "CVE-2023-30861",
+          "CVE-2023-30861"
+        ]
+      }
+    ],
+    "patched_file": "django==6.0.3\nrequests==2.32.4\nnumpy==1.22\nflask==3.1.3",
+    "scan_date": "2026-03-22T16:29:48.055163+00:00",
+    "file_type": "txt"
+  }
+}

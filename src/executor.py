@@ -266,13 +266,16 @@ def generate_updated_package_json(original_sections, suggested_versions):
         ver = suggested_versions.get(pkg, data["version"])
         peer_deps[pkg] = f"{prefix}{ver}"
 
-    # Preserve all original top-level fields (name, version, scripts, etc.)
-    result = {k: v for k, v in original_sections.get("_raw", {}).items()
-              if k not in ("dependencies", "devDependencies", "peerDependencies")}
-    result["dependencies"] = deps
-    result["devDependencies"] = dev_deps
-    if peer_deps:
-        result["peerDependencies"] = peer_deps
+    # Rebuild result preserving original key order from _raw
+    result = {}
+    raw = original_sections.get("_raw", {})
+    dep_sections = {"dependencies": deps, "devDependencies": dev_deps, "peerDependencies": peer_deps if peer_deps else None}
+    for k, v in raw.items():
+        if k in dep_sections:
+            if dep_sections[k] is not None:
+                result[k] = dep_sections[k]
+        else:
+            result[k] = v
     return json.dumps(result, indent=2)
 
 

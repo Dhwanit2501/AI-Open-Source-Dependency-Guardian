@@ -5,3 +5,4 @@ plotly
 st-circular-progress 
 packaging
 cvss
+streamlit-code-diff

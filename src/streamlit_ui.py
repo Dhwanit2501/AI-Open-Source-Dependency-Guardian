@@ -121,7 +121,7 @@ def main():
         
         try:
             with st.spinner("🔍 Analyzing dependencies..."):
-                parsed_results, patched_file, risk_score, improvement = agent_main(uploaded_file.name,tmp_file_path)
+                parsed_results, patched_file, risk_score, improvement, parsed_data = agent_main(uploaded_file.name,tmp_file_path)
             
             st.success("✅ Analysis complete!")
 
@@ -266,29 +266,52 @@ def main():
 
                 st.markdown(download_link, unsafe_allow_html=True)
 
-            # Side-by-side original and patched file comparison
+            # Side-by-side comparison: original file on left, only changed fixes on right
             st.subheader("📂 File Comparison")
-
-            def render_code_block(content):
-                import html
-                escaped = html.escape(content)
-                st.markdown(
-                    f"<pre style='background-color:#0e1117; color:#00ff99; padding:15px; "
-                    f"border-radius:8px; font-size:0.82rem; overflow-x:auto; "
-                    f"border: 1px solid #333; white-space:pre; word-wrap:normal; "
-                    f"max-height:400px; overflow-y:auto;'>{escaped}</pre>",
-                    unsafe_allow_html=True
-                )
-
             col1, col2 = st.columns(2)
             with col1:
                 st.markdown("**Original File**")
                 with open(tmp_file_path, 'r') as f:
                     original_content = f.read()
-                render_code_block(original_content)
+                st.code(original_content, language="json" if uploaded_file.name.endswith(".json") else "text")
             with col2:
-                st.markdown("**Patched File**")
-                render_code_block(patched_file)
+                st.markdown("**Patched Versions**")
+
+                # Build a lookup of pkg -> fix_ver for changed packages only
+                fix_lookup = {}
+                for dep in parsed_results:
+                    pkg = dep.get("package", "")
+                    current = dep.get("current_version", "")
+                    fix = dep.get("fix", "")
+                    fix_ver = fix.split("==")[-1] if "==" in fix else fix
+                    if fix_ver and fix_ver != current:
+                        fix_lookup[pkg] = fix_ver
+
+                if fix_lookup:
+                    if uploaded_file.name.endswith(".json"):
+                        # Preserve exact section order from original file using _raw key order
+                        raw_keys = list(parsed_data.get("_raw", {}).keys())
+                        dep_sections = ["dependencies", "devDependencies", "peerDependencies"]
+                        # Get sections in the order they appear in the original file
+                        section_order = [k for k in raw_keys if k in dep_sections]
+                        # Add any remaining dep sections not in raw (edge case)
+                        section_order += [s for s in dep_sections if s not in section_order]
+                        output_lines = ["{"]
+                        for section in section_order:
+                            pkgs = parsed_data.get(section, {})
+                            section_fixes = {p: v for p, v in fix_lookup.items() if p in pkgs}
+                            if section_fixes:
+                                output_lines.append(f'  "{section}": {{')
+                                for pkg, ver in section_fixes.items():
+                                    output_lines.append(f'    "{pkg}": "^{ver}",')
+                                output_lines.append("  },")
+                        output_lines.append("}")
+                        st.code("\n".join(output_lines), language="json")
+                    else:
+                        # Plain text for requirements.txt
+                        st.code("\n".join([f"{p}=={v}" for p, v in fix_lookup.items()]), language="text")
+                else:
+                    st.success("✅ All packages are already at safe versions.")
 
         except Exception as e:
             error_msg = str(e)
@@ -300,7 +323,7 @@ def main():
                     "[Google AI Studio](https://aistudio.google.com) for higher limits."
                 )
             else:
-                st.error("❌ Something went wrong while processing your file. Please try again.")
+                st.error(f"❌ Error: {error_msg}")
         finally:
             os.unlink(tmp_file_path)
 
