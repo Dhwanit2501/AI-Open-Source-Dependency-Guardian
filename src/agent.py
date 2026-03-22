@@ -3,6 +3,7 @@ from executor import execute
 from memory import retrieve_memory, store_memory
 from utils.parser import parse_dependency_file
 from datetime import datetime, timezone
+import hashlib
 
 
 def merge_all_deps(parsed_data):
@@ -12,12 +13,34 @@ def merge_all_deps(parsed_data):
     combined.update(parsed_data.get("peerDependencies", {}))
     return combined
 
-def agent_main(file_key,dep_file_path):
+
+def generate_file_key(filename: str, parsed_data: dict) -> str:
+    """
+    Generates a stable SHA-256 based key from the filename + sorted package names.
+    Using package names only (not versions) ensures the same project gets the same
+    key across rescans even after versions are updated.
+    This isolates users with different projects even if they use the same filename
+    (e.g. requirements.txt) while correctly linking rescans of the same project.
+    """
+    pkg_names = sorted([
+        *parsed_data.get("dependencies", {}).keys(),
+        *parsed_data.get("devDependencies", {}).keys(),
+        *parsed_data.get("peerDependencies", {}).keys()
+    ])
+    content = filename + ":" + ",".join(pkg_names)
+    return hashlib.sha256(content.encode()).hexdigest()[:16]
+
+
+def agent_main(file_key, dep_file_path):
     with open(dep_file_path, "r") as f:
         content = f.read()
 
     parsed_data, file_type = parse_dependency_file(dep_file_path, content)
     combined_deps = merge_all_deps(parsed_data)
+
+    # Override the filename-based key with a content-based SHA-256 key
+    # so users with the same filename don't overwrite each other's scan history
+    file_key = generate_file_key(file_key, parsed_data)
 
     last_scan = retrieve_memory(file_key)
     plan_tasks = plan(combined_deps, last_scan)
