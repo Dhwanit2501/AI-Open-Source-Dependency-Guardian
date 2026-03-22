@@ -111,7 +111,7 @@ def main():
     uploaded_file = st.file_uploader(
         "Upload your dependency file", 
         type=['txt', 'json'], 
-        help="Upload requirements.txt or package.json"
+        help="Upload requirements.txt or package.json. To track risk improvement over time, keep the same filename when re-uploading your patched file."
     )
     
     if uploaded_file is not None:
@@ -197,7 +197,10 @@ def main():
 
             # Display each dependency as a card
             st.subheader("Dependency Analysis")
-            for dep in parsed_results:
+            filtered_deps = [d for d in parsed_results if not (d.get("severity") == "Low" and str(d.get("cvss", "0")) == "0.0")]
+            if not filtered_deps:
+                st.success("🛡️ All dependencies are secure — no actionable vulnerabilities found.")
+            for dep in filtered_deps:
                 with st.expander(f"📦 {dep['package']} ({dep['current_version']}) - {dep['severity']}"):
                     st.markdown(
                         f"**CVSS:** {dep['cvss']} | "
@@ -273,18 +276,33 @@ def main():
                 st.markdown("**Original File**")
                 with open(tmp_file_path, 'r') as f:
                     original_content = f.read()
-                st.code(original_content, language="json" if uploaded_file.name.endswith(".json") else "text")
+                if uploaded_file.name.endswith(".json"):
+                    import json as json_module
+                    try:
+                        raw = json_module.loads(original_content)
+                        dep_only = {k: v for k, v in raw.items()
+                                   if k in ("dependencies", "devDependencies", "peerDependencies")}
+                        st.code(json_module.dumps(dep_only, indent=2), language="json")
+                    except:
+                        st.code(original_content, language="json")
+                else:
+                    st.code(original_content, language="text")
             with col2:
                 st.markdown("**Patched Versions**")
 
                 # Build a lookup of pkg -> fix_ver for changed packages only
+                import re as _re
                 fix_lookup = {}
                 for dep in parsed_results:
                     pkg = dep.get("package", "")
                     current = dep.get("current_version", "")
                     fix = dep.get("fix", "")
                     fix_ver = fix.split("==")[-1] if "==" in fix else fix
-                    if fix_ver and fix_ver != current:
+                    # Only include if fix_ver looks like a real version (contains digits and dots)
+                    # and is different from current version
+                    if (fix_ver
+                            and fix_ver != current
+                            and _re.match(r"^[0-9][0-9\.]*$", fix_ver.strip())):
                         fix_lookup[pkg] = fix_ver
 
                 if fix_lookup:
